@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="outputter" class="com.example.di.sample4.FileOutputter">
+		<property name="filePath">
+			<value>greeting.txt</value>
+		</property>
+	</bean>
+	<!-- 위는 다음 문장과 같은 의미 (outputter 객체 생성)
+	Outputter outputter = new FileOutputter();
+	outputter.setFilePath("greeting.txt"); -->
+	
+	<bean id="messageBean" class="com.example.di.sample4.MessageBeanImpl">
+		<constructor-arg>
+			<value>Hong</value>
+		</constructor-arg>
+		<property name="greeting">
+			<value>Hello</value>
+		</property>
+		<property name="outputter">
+			<ref bean="outputter"></ref>
+		</property>
+	</bean>
+	<!-- 생성자를 통해 주입한 name은 constructor-arg
+	setter를 통해 주입한 greeting은 property 
+	위에서 생성한 객체를 가져올 때는 ref -->
+	
+</beans>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="department" class="com.example.di.sample6.Department">
+		<constructor-arg value="100" />
+		<property name="name" value="홍보부" />
+		<property name="location" value="가산 금천구" />
+	</bean>
+	
+	<bean id="employee" class="com.example.di.sample6.EmployeeImpl">
+<!-- 		생성자의 파라미터가 2개니까 index를 붙여서 value 넣어줌 -->
+		<constructor-arg index="0" value="1001" />
+		<constructor-arg index="1" value="홍길동" />
+		<property name="dept" ref="department" />
+	</bean>
+</beans>
