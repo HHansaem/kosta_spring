@@ -80,8 +80,10 @@
 				success:function(result) {
 					if(result == 'true') {
 						alert("계좌번호가 중복됩니다");
-					} else {
+					} else if(result == 'false') {
 						alert("사용 가능한 계좌번호 입니다");
+					} else {
+						alert("계좌번호 체크 오류");
 					}
 				},
 				error:function(result) {

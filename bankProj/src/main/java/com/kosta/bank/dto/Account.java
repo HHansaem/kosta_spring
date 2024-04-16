@@ -8,14 +8,7 @@ public class Account {
 	private String grade;
 	
 	public Account() {}
-	public Account(String id, String name, Integer balance, String type, String grade) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.balance = balance;
-		this.type = type;
-		this.grade = grade;
-	}
+	
 	public String getId() {
 		return id;
 	}
@@ -46,5 +39,23 @@ public class Account {
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
+	public void deposit(int money) throws Exception {
+		if(money < 0) throw new Exception("입금액 오류"); 
+		balance += money;
+	}
+	public void withdraw(int money) throws Exception {
+		if(balance < money) throw new Exception("잔액 부족 오류");
+		balance -= money;
+	}
 	
+	public Account(String id) {
+		this.id = id;
+	}
+	public void transfer(String sid, String rid, int money) throws Exception {
+		Account sacc = new Account(sid);
+		Account racc = new Account(rid);
+		if(sacc.getBalance() < money) throw new Exception("잔액 부족");
+		sacc.withdraw(money);
+		racc.deposit(money);
+	}
 }
