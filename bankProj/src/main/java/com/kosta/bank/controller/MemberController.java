@@ -27,18 +27,6 @@ public class MemberController {
 		return "join";
 	}
 	
-	@ResponseBody  //return해서 주는게 view가 아니라 데이터 (비동기통신에 사용)
-	@RequestMapping(value = "/memberDoubleId", method = RequestMethod.POST)
-	public String memberDoubleIdCheck(String id) {
-		try {
-			Boolean check = memberService.checkMemberDoubleId(id);
-			return String.valueOf(check);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "false";
-		}
-	}
-	
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String join(Member member, Model model) {
 		try {
@@ -52,6 +40,18 @@ public class MemberController {
 		}
 	}
 	
+	@ResponseBody  //return해서 주는게 view가 아니라 데이터 (비동기통신에 사용)
+	@RequestMapping(value = "/memberDoubleId", method = RequestMethod.POST)
+	public String memberDoubleIdCheck(String id) {
+		try {
+			Boolean check = memberService.checkMemberDoubleId(id);
+			return String.valueOf(check);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "false";
+		}
+	}
+
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
 		return "login";
@@ -75,6 +75,6 @@ public class MemberController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout() {
 		session.removeAttribute("user");
-		return "makeAccount";
+		return "login";
 	}
 }

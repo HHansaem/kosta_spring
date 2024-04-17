@@ -1,7 +1,5 @@
 package com.kosta.bank.service;
 
-import javax.servlet.http.HttpSession;
-
 import com.kosta.bank.dao.MemberDao;
 import com.kosta.bank.dto.Member;
 
@@ -15,7 +13,8 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void join(Member member) throws Exception {
-		if(member.getId() == null) throw new Exception("중복된 아이디입니다");
+		Member mem = memberDao.selectMember(member.getId());
+		if(mem != null) throw new Exception("중복된 아이디입니다");
 		memberDao.insertMember(member);
 	}
 
@@ -29,7 +28,7 @@ public class MemberServiceImpl implements MemberService {
 	public Member login(String id, String password) throws Exception {
 		Member mem = memberDao.selectMember(id);
 		if(mem == null) throw new Exception("존재하지 않는 아이디입니다");
-		if(!mem.getPassword().equals(password)) throw new Exception("비밀번호가 틀렸습니다");
+		if(!mem.getPassword().equals(password.trim())) throw new Exception("비밀번호가 틀렸습니다");
 		return mem;
 	}
 }
