@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="mapper.member">
+ 	<insert id="insertMember" parameterType="member">
+<!--  	 useGeneratedKeys="true" keyProperty="id" 이거는 key값이 자동으로 정해질 때 넣는다 얘는 자동 아니니까 -->
+ 		<![CDATA[
+         insert into member (id, name, password, email, address, detailaddress)
+         values (#{id}, #{name}, #{password}, #{email}, #{address}, #{detailAddress})
+      	]]>
+ 	</insert>
+ 	
+ 	<select id="selectMember" parameterType="String" resultType="member">
+ 		<![CDATA[
+         select * from member where id=#{id}
+      	]]>
+ 	</select>
+ 	
+ </mapper>

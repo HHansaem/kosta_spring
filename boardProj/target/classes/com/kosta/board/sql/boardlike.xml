@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="mapper.boardlike">
+<!-- 	dto 안 만들고 데이터 다 끌어와서 파라미터 넣어줄 거기 때문에 파라미터타입을 Map으로 설정 -->
+	<insert id="insertBoardLike" parameterType="java.util.Map">
+		<![CDATA[
+			insert into boardlike (memberId, boardNum) values (#{memberId}, #{boardNum})
+		]]>
+	</insert>
+	
+	<delete id="deleteBoardLike" parameterType="java.util.Map">
+		<![CDATA[
+			delete from boardlike where memberId=#{memberId} and boardNum=#{boardNum}
+		]]>
+	</delete>
+	
+<!-- 	해당 글에 하트 눌렀는지 여부 체크 -->
+	<select id="selectBoardLike" parameterType="java.util.Map" resultType="Integer">
+		<![CDATA[
+			select num from boardlike where memberId=#{memberId} and boardNum=#{boardNum}
+		]]>
+	</select>
+ 	
+ </mapper>
