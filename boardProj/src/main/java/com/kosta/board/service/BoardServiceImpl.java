@@ -1,13 +1,17 @@
 package com.kosta.board.service;
 
+import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.border.Border;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kosta.board.dao.BoardDao;
+import com.kosta.board.dto.BFile;
 import com.kosta.board.dto.Board;
 import com.kosta.board.util.PageInfo;
 
@@ -48,40 +52,26 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void boardWrite(HttpServletRequest request) throws Exception {
-		Board board = new Board();
-	      
-	    // 1. 파일 업로드 
-	    // 1-1. 업로드할 경로 설정 및 파일 최대 크기 설정
-//	    String path = request.getServletContext().getRealPath("upload");
-//	    int size = 10*1024*1024;
-//	    // 1-2. 설정할 경로에 파일 업로드 
-//	    MultipartRequest multi = new MultipartRequest(request, path, size, "utf-8", new DefaultFileRenamePolicy());
-//	      
-//	    // 2. 업로드 파일이 있을 경우
-//	    File file = multi.getFile("file");  //"file"은 jsp input태그의 name
-//	    if(file!=null) {
-//	       // 2-1. 파일 정보를 BFile 객체에 담아 File 테이블에 삽입
-//	       BFile bFile = new BFile();
-//	       bFile.setDirectory(path);
-//	       bFile.setContenttype(multi.getContentType("file"));
-////	       getFilesystemName : 동일한 이름이 있으면 파일명에 숫자를 붙여주는데 그것을 가져옴(즉, 최종 파일명)
-//	       bFile.setName(multi.getFilesystemName("file"));
-//	       bFile.setSize(file.length());
-//	       boardDao.insertFile(bFile);
-//	         
-//	       // 2-2. 파일 테이블에서 자동 생성된 파일번호로 업로드한 파일이름 변경
-//	       File uploadFile = new File(path,file.getName());
-//	       uploadFile.renameTo(new File(path,bFile.getNum()+""));  //+""를 통해 숫자를 문자열로 변환
-//	       
-//	       // 2-3. 파일 테이블에서 자동 생성된 파일번호로 Board의 파일 번호 셋팅
-//	       board.setFilenum(bFile.getNum());
-//	    }
-//	    // 3. 파라미터에서 파일 이외의 정보 가져와 Board 객체에 담아 Board 테이블에 삽입  
-//	    board.setSubject(multi.getParameter("subject"));
-//	    board.setContent(multi.getParameter("content"));
-//	    board.setWriter(multi.getParameter("writer"));
-	    boardDao.insertBoard(board);
+	public void boardWrite(Board board, MultipartFile file) throws Exception {
+		// MultipartFile: 브라우저에서 가져온 파일의 모든 정보 담고있음
+		// 1. 파일업로드
+		if(file != null && !file.isEmpty()) {
+			String path = "C:/hhs/spring_upload";
+			BFile bFile = new BFile();
+			// DB에 저장
+			bFile.setDirectory(path);
+			bFile.setName(file.getOriginalFilename());;
+			bFile.setSize(file.getSize());
+			bFile.setContenttype(file.getContentType());
+			boardDao.insertFile(bFile);  // 파일정보 테이블에 삽입
+			
+			// file upload
+			File upFile = new File(path, bFile.getNum()+"");
+			file.transferTo(upFile);
+			board.setFilenum(bFile.getNum());
+		}
+		// 2. 게시글 테이블에 삽입
+		boardDao.insertBoard(board);
 	}
 
 	@Override

@@ -60,5 +60,10 @@ public class Board {
 	public void setLikecount(Integer likecount) {
 		this.likecount = likecount;
 	}
-	
+	@Override
+	public String toString() {
+		return "Board [num=" + num + ", subject=" + subject + ", content=" + content + ", writedate=" + writedate
+				+ ", filenum=" + filenum + ", writer=" + writer + ", viewcount=" + viewcount + ", likecount="
+				+ likecount + "]";
+	}
 }
