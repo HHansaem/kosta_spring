@@ -75,38 +75,35 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void boardModify(HttpServletRequest request) throws Exception {
-		Board board = new Board();
-		
-		//1. 파일 업로드
-//		String path = request.getServletContext().getRealPath("upload");
-//	    int size = 10*1024*1024;
-//	    MultipartRequest multi = new MultipartRequest(request, path, size, "utf-8", new DefaultFileRenamePolicy());
-//
-//	    //2. 업로드 파일이 있으면
-//	    File file = multi.getFile("file");
-//	    if(file != null) {
-//	    	//2-1. 파일정보 모아서 BFile 객체 생성해 파일 테이블에 삽입
-//	    	BFile bFile = new BFile();
-//	    	bFile.setDirectory(path);
-//	    	bFile.setName(file.getName());
-//	    	bFile.setContenttype(multi.getContentType("file"));
-//	        bFile.setSize(file.length());
-//	        boardDao.insertFile(bFile);
-//	        
-//	        //2-2. 저장된 파일번호로 업로드한 파일명 변경
-//	        File uploadFile = new File(path, file.getName());
-//	        uploadFile.renameTo(new File(path, bFile.getNum()+""));  //+""를 통해 숫자를 문자열로 변환
-//
-//	        //2-3. 저장된 파일번호로 Board의 파일번호 세팅
-//	        board.setFilenum(bFile.getNum());
-//	    }
-//	    
-//		//3. 수정된 Board 정보를 파라미터에서 가져다가 Board객체 생성하여 Board 테이블 갱신
-//	    board.setNum(Integer.parseInt(multi.getParameter("num")));
-//	    board.setSubject(multi.getParameter("subject"));
-//	    board.setContent(multi.getParameter("content"));
-	    boardDao.updateBoard(board);
+	public void boardModify(Board board, MultipartFile file) throws Exception {
+		// MultipartFile: 브라우저에서 가져온 파일의 모든 정보 담고있음
+		Integer beforeFileNum = null;
+		String path = "C:/hhs/spring_upload";
+		// 1. 파일업로드
+		if(file != null && !file.isEmpty()) {
+			//기존 파일정보와 파일 삭제
+			beforeFileNum = boardDetail(board.getNum()).getFilenum();
+			
+			//새 파일 업로드 & 새 파일정보 삽입
+			BFile bFile = new BFile();
+			bFile.setDirectory(path);
+			bFile.setName(file.getOriginalFilename());;
+			bFile.setSize(file.getSize());
+			bFile.setContenttype(file.getContentType());
+			boardDao.insertFile(bFile);  //파일정보 테이블에 삽입
+			
+			//file upload
+			File upFile = new File(path, bFile.getNum()+"");
+			file.transferTo(upFile);
+			board.setFilenum(bFile.getNum());
+		}
+		// 2. 수정된 Board 정보를 파라미터에서 가져다가 Board 객체 생성하여 Board 테이블 갱신
+		boardDao.updateBoard(board);
+		if(beforeFileNum != null) {
+			boardDao.deleteFile(beforeFileNum);
+			File beforeFile = new File(path, beforeFileNum+"");
+			beforeFile.delete();
+		}
 	}
 
 }

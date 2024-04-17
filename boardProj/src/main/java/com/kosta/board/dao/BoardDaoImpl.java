@@ -51,4 +51,9 @@ public class BoardDaoImpl implements BoardDao {
 	public void updateBrdViewCnt(Integer num) throws Exception {
 		sqlSession.update("mapper.board.updateBrdViewCnt", num);
 	}
+
+	@Override
+	public void deleteFile(Integer num) throws Exception {
+		sqlSession.delete("mapper.board.deleteFile", num);
+	}
 }

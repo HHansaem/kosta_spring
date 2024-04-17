@@ -13,4 +13,5 @@ public interface BoardDao {
 	void insertFile(BFile file) throws Exception;
 	void updateBoard(Board board) throws Exception;
 	void updateBrdViewCnt(Integer num) throws Exception;
+	void deleteFile(Integer num) throws Exception;
 }

@@ -53,5 +53,11 @@
       	update board set viewcount = viewcount+1 where num=#{num}
       ]]>
    </update>
+   
+   <delete id="deleteFile" parameterType="Integer">
+      <![CDATA[
+      	delete from file where num=#{num}
+      ]]>
+   </delete>
  	
  </mapper>

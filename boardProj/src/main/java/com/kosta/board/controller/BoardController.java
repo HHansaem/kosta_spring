@@ -87,4 +87,34 @@ public class BoardController {
 			e.printStackTrace();
 		}
 	}
+	
+	@GetMapping("/boardmodify")
+	public ModelAndView boardModify(Integer num) {
+		ModelAndView mav = new ModelAndView();
+		try {
+			Board board = boardService.boardDetail(num);
+			mav.addObject("board", board);
+			mav.setViewName("modifyform");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mav.addObject("err", "게시글 수정 조회 오류");
+			mav.setViewName("error");
+		}
+		return mav;
+	}
+	
+	@PostMapping("/boardmodify")
+	public ModelAndView boardModify(@ModelAttribute Board board, @RequestPart(value = "file", required = false) MultipartFile file) {
+		ModelAndView mav = new ModelAndView();
+		try {
+			boardService.boardModify(board, file);
+			mav.setViewName("redirect:/boarddetail?num="+board.getNum());
+		} catch (Exception e) {
+			e.printStackTrace();
+			mav.addObject("err", "게시글 수정 오류");
+			mav.setViewName("error");
+		}
+		return mav;
+	}
+	
 }
