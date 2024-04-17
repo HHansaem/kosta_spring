@@ -60,10 +60,9 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(String id, String password, Model model, HttpServletRequest request, HttpServletResponse response) {
+	public String login(String id, String password, Model model, String autologin, HttpServletRequest request, HttpServletResponse response) {
 		try {
 			//자동 로그인 -> login success시 cookie check & 저장
-			String autologin = request.getParameter("autologin");  //체크: true 체크X: null
 			Cookie autoLoginCookie = null;
 			Cookie idCookie = null;
 			Cookie passwordCookie = null;

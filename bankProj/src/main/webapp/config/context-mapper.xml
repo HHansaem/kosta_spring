@@ -11,6 +11,7 @@
 		<property name="configLocation" value="/config/mybatis-alias.xml"></property>
 	</bean>
 	
+<!-- 	@Autowired를 통해 사용 가능 (생성한 걸 주입) -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>

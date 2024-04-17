@@ -24,20 +24,20 @@
 	</beans:bean>
 	<context:component-scan base-package="com.kosta.bank" />
 	
-	<beans:bean id="accountDao" class="com.kosta.bank.dao.AccountDaoImpl">
-		<beans:property name="sqlSession" ref="sqlSession" />
-	</beans:bean>
+<!-- 	<beans:bean id="accountDao" class="com.kosta.bank.dao.AccountDaoImpl"> -->
+<!-- 		<beans:property name="sqlSession" ref="sqlSession" /> -->
+<!-- 	</beans:bean> -->
 	
-	<beans:bean id="accountService" class="com.kosta.bank.service.AccountServiceImpl">
-		<beans:property name="accountDao" ref="accountDao" />
-	</beans:bean>
+<!-- 	<beans:bean id="accountService" class="com.kosta.bank.service.AccountServiceImpl"> -->
+<!-- 		<beans:property name="accountDao" ref="accountDao" /> -->
+<!-- 	</beans:bean> -->
 	
-	<beans:bean id="memberDao" class="com.kosta.bank.dao.MemberDaoImpl">
-		<beans:property name="sqlSession" ref="sqlSession" />
-	</beans:bean>
+<!-- 	<beans:bean id="memberDao" class="com.kosta.bank.dao.MemberDaoImpl"> -->
+<!-- 		<beans:property name="sqlSession" ref="sqlSession" /> -->
+<!-- 	</beans:bean> -->
 
-	<beans:bean id="memberService" class="com.kosta.bank.service.MemberServiceImpl">
-		<beans:property name="memberDao" ref="memberDao" />
-	</beans:bean>
+<!-- 	<beans:bean id="memberService" class="com.kosta.bank.service.MemberServiceImpl"> -->
+<!-- 		<beans:property name="memberDao" ref="memberDao" /> -->
+<!-- 	</beans:bean> -->
 	
 </beans:beans>

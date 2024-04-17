@@ -2,16 +2,21 @@ package com.kosta.bank.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.kosta.bank.dao.AccountDao;
 import com.kosta.bank.dto.Account;
 
+@Service //@Controller처럼 자동생성 (Service에서 사용)
 public class AccountServiceImpl implements AccountService {
 	
+	@Autowired
 	private AccountDao accountDao;
 	
-	public void setAccountDao(AccountDao accountDao) {
-		this.accountDao = accountDao;
-	}
+//	public void setAccountDao(AccountDao accountDao) {
+//		this.accountDao = accountDao;
+//	}
 
 	@Override
 	public void makeAccount(Account acc) throws Exception {
