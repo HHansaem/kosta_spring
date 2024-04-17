@@ -1,6 +1,8 @@
 package com.kosta.bank.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +60,28 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(String id, String password, Model model) {
+	public String login(String id, String password, Model model, HttpServletRequest request, HttpServletResponse response) {
 		try {
+			//자동 로그인 -> login success시 cookie check & 저장
+			String autologin = request.getParameter("autologin");  //체크: true 체크X: null
+			Cookie autoLoginCookie = null;
+			Cookie idCookie = null;
+			Cookie passwordCookie = null;
+			
+			if(autologin != null) {
+				autoLoginCookie = new Cookie("autologin", autologin);
+				idCookie = new Cookie("id", id);
+				passwordCookie = new Cookie("password", password);
+			} else {  //체크 안 했으면 id랑 password cookie값 지워주기
+				autoLoginCookie = new Cookie("autologin", "false");
+				idCookie = new Cookie("id", "");
+				passwordCookie = new Cookie("password", "");
+			}
+			response.addCookie(autoLoginCookie);
+			response.addCookie(idCookie);
+			response.addCookie(passwordCookie);
+			//////////////////////////
+			
 			Member member = memberService.login(id, password);
 			member.setPassword("");
 			session.setAttribute("user", member.getId());
