@@ -10,4 +10,10 @@
       	]]>
  	</select>
 
+ 	<select id="selectGoods" parameterType="String" resultType="goods">
+ 		<![CDATA[
+         select * from goods where gCode = #{gCode}
+      	]]>
+ 	</select>
+
  </mapper>

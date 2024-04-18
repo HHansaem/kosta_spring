@@ -19,4 +19,9 @@ public class GoodsDaoImpl implements GoodsDao {
 		return sqlSession.selectList("mapper.goods.selectGoodsList");
 	}
 
+	@Override
+	public Goods selectGoods(String gCode) throws Exception {
+		return sqlSession.selectOne("mapper.goods.selectGoods", gCode);
+	}
+
 }

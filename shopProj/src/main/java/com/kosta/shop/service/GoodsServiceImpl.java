@@ -19,4 +19,9 @@ public class GoodsServiceImpl implements GoodsService {
 		return goodsDao.selectGoodsList();
 	}
 
+	@Override
+	public Goods goodsDetail(String gCode) throws Exception {
+		return goodsDao.selectGoods(gCode);
+	}
+
 }
