@@ -27,7 +27,7 @@
 		<div class="menu">
 			<a id="logoutBtn">로그아웃</a>
 			<a id="myPageBtn">회원정보</a>
-			<a id="cartListBtn">장바구니</a>			
+			<a id="cartListBtn">장바구니</a>
 		</div>
 	</header>
 	<div class="goodsDetail">
