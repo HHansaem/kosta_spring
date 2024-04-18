@@ -39,7 +39,11 @@
 </head>
 <body>
 <jsp:include page="main.jsp" />
-<h2>글 목록&nbsp;&nbsp;&nbsp;&nbsp;<a href="boardwrite">글쓰기</a></h2>
+<h2>글 목록&nbsp;&nbsp;&nbsp;&nbsp;
+	<c:if test="${user ne Empty }">
+		<a href="boardwrite">글쓰기</a>
+	</c:if>
+</h2>
 <table>
 	<tr id="tr_top">
 		<th>번호</th>
