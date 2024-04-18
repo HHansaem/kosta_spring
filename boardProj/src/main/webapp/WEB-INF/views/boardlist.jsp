@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>게시판 목록</title>
 <style type="text/css">
-	h2 {
+	h2, form {
 		text-align: center;
 	}
 	table {
@@ -36,14 +36,34 @@
 		background: lightblue;
 	}
 </style>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#type").val("${type}").prop("selected", true);
+})
+
+function submit(page) {
+	$("#page").val(page);
+	$("#search").submit();
+}
+</script>
 </head>
 <body>
 <jsp:include page="main.jsp" />
 <h2>글 목록&nbsp;&nbsp;&nbsp;&nbsp;
-	<c:if test="${user ne Empty }">
-		<a href="boardwrite">글쓰기</a>
-	</c:if>
+	<c:if test="${user ne Empty }"><a href="boardwrite">글쓰기</a></c:if>
 </h2>
+<form action="boardlist" method="get" id="search">
+	<input type="hidden" name="page" value="1" id="page"/>
+	<select name="type" id="type">
+		<option value="subject" selected="selected">제목</option>
+		<option value="writer">작성자</option>
+		<option value="content">내용</option>
+	</select>
+	<input type="text" name="word" value="${word }" />
+	<input type="submit" value="검색"/>
+</form>
+<br>
 <table>
 	<tr id="tr_top">
 		<th>번호</th>
@@ -66,28 +86,28 @@
 <div id="emptyArea">
 	<c:choose>
 		<c:when test="${pageInfo.curPage == 1 }">
-			<a>&lt;</a>  <!-- 현재페이지가 1이면 비활성화 -->
+			<button>&lt;</button>  <!-- 현재페이지가 1이면 비활성화 -->
 		</c:when>
 		<c:otherwise>
-			<a href="boardlist?page=${pageInfo.curPage-1 }">&lt;</a>  <!-- 아니면 링크 걸어서 활성화 -->
+			<button onclick="submit(${pageInfo.curPage-1})">&lt;</button>
 		</c:otherwise>
 	</c:choose>
 	<c:forEach begin="${pageInfo.startPage }" end="${pageInfo.endPage }" var="i">
 		<c:choose>
 			<c:when test="${i == pageInfo.curPage }">
-				<a href="boardlist?page=${i }" class="select">${i }</a>
+				<button class="select" onclick="submit(${i})">${i }</button>
 			</c:when>
 			<c:otherwise>
-				<a href="boardlist?page=${i }" class="btn">${i }</a>
+				<button class="btn" onclick="submit(${i})">${i }</button>
 			</c:otherwise>
 		</c:choose>
 	</c:forEach>
 	<c:choose>
 		<c:when test="${pageInfo.curPage == pageInfo.allPage }">
-			<a>&gt;</a>  <!-- 시작페이지가 1이면 비활성화 -->
+			<button>&gt;</button>  <!-- 시작페이지가 1이면 비활성화 -->
 		</c:when>
 		<c:otherwise>
-			<a href="boardlist?page=${pageInfo.curPage+1 }">&gt;</a>  <!-- 아니면 링크 걸어서 활성화 -->
+			<button onclick="submit(${pageInfo.curPage+1})">&gt;</button>
 		</c:otherwise>
 	</c:choose>
 </div>

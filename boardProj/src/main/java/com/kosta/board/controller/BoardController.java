@@ -36,15 +36,21 @@ public class BoardController {
 
 	@GetMapping("/boardlist")
 //	@RequestMapping(value = "/makeAccount", method = RequestMethod.GET 랑 같음!
-	public ModelAndView boardlist(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+	public ModelAndView boardlist(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+			@RequestParam(value = "type", required = false) String type, 
+			@RequestParam(value = "word", required = false) String word) {
 		//페이지 파라미터 안 가져왔을 때 -> (required = false)꼭 필요한 건 아니라 에러나지 않고 (defaultValue)기본값을 1페이지로
 		ModelAndView mav = new ModelAndView();
 		try {
 			PageInfo pageInfo = new PageInfo();
 			pageInfo.setCurPage(page);
-			List<Board> boardList = boardService.boardListByPage(pageInfo);
+			List<Board> boardList = boardService.boardListByPage(pageInfo, type, word);
 			mav.addObject("pageInfo", pageInfo);
 			mav.addObject("boardList", boardList);
+			if(word != null && type != null) {
+				mav.addObject("type", type);
+				mav.addObject("word", word);
+			}
 			mav.setViewName("boardlist");
 		} catch (Exception e) {
 			e.printStackTrace();

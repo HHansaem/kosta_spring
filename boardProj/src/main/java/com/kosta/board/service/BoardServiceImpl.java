@@ -25,12 +25,21 @@ public class BoardServiceImpl implements BoardService {
 	private BoardLikeDao boardLikeDao;
 	
 	@Override
-	public List<Board> boardListByPage(PageInfo pageInfo) throws Exception {
+	public List<Board> boardListByPage(PageInfo pageInfo, String type, String word) throws Exception {
 		//1. 페이지를 가져오고 없으면 페이지번호를 1로 한다.
 		Integer page = pageInfo.getCurPage();
+		int row = (page-1)*10;  //시작 offset 계산
+		List<Board> boardList = null;
 		
 		//2. PageInfo 계산하여 실행하기
-		int maxPage = (int)Math.ceil((double)boardDao.selectBoardCount()/10);
+		int maxPage = 1;
+		if(type != null && word != null) {  //검색 목록 조회
+			maxPage = (int)Math.ceil((double)boardDao.selectBoardSearchCount(type, word)/10);
+			boardList = boardDao.selectBoardSearchList(row, type, word);
+		} else {  //전체 목록 조회
+			maxPage = (int)Math.ceil((double)boardDao.selectBoardCount()/10);
+			boardList = boardDao.selectBoardList(row);
+		}
 		int startPage = (page-1)/10*10+1; //1,11,21,31...
 		int endPage = startPage+10-1;  //10,20,30...
 		if(endPage > maxPage) {
@@ -40,11 +49,6 @@ public class BoardServiceImpl implements BoardService {
 		pageInfo.setAllPage(maxPage);
 		pageInfo.setStartPage(startPage);
 		pageInfo.setEndPage(endPage);
-		
-		
-		//3. 해당 페이지에 해당하는 게시판 글 목록 조회
-		int row = (page-1)*10;
-		List<Board> boardList = boardDao.selectBoardList(row);
 		
 		return boardList;
 	}
