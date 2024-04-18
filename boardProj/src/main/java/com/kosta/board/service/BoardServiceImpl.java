@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kosta.board.dao.BoardDao;
+import com.kosta.board.dao.BoardLikeDao;
 import com.kosta.board.dto.BFile;
 import com.kosta.board.dto.Board;
 import com.kosta.board.util.PageInfo;
@@ -19,6 +20,9 @@ import com.kosta.board.util.PageInfo;
 public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private BoardDao boardDao;
+	
+	@Autowired
+	private BoardLikeDao boardLikeDao;
 	
 	@Override
 	public List<Board> boardListByPage(PageInfo pageInfo) throws Exception {
@@ -104,6 +108,24 @@ public class BoardServiceImpl implements BoardService {
 			File beforeFile = new File(path, beforeFileNum+"");
 			beforeFile.delete();
 		}
+	}
+	
+	@Override
+	public boolean isSelectBoardLike(String memberId, Integer boardNum) throws Exception {
+		Integer num = boardLikeDao.selectBoardLike(memberId, boardNum);
+		//하트가 눌려져 있지 않으면 false 리턴
+		return num != null;
+	}
+
+	@Override
+	public boolean checkBoardLike(String memberId, Integer boardNum) throws Exception {
+		boolean isBoardLike = isSelectBoardLike(memberId, boardNum);
+		if(isBoardLike) {
+			boardLikeDao.deleteBoardLike(memberId, boardNum);
+		} else {
+			boardLikeDao.insertBoardLike(memberId, boardNum);
+		}
+		return !isBoardLike;
 	}
 
 }
