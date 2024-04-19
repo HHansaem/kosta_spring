@@ -6,4 +6,5 @@ public interface MemberService {
 	void signUp(Member member) throws Exception;
 	Boolean idCheck(String userid) throws Exception;
 	Member login(String userid, String passwd) throws Exception;
+	Member myPage(String userid) throws Exception;
 }

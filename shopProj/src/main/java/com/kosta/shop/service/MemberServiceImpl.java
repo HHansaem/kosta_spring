@@ -31,4 +31,9 @@ public class MemberServiceImpl implements MemberService {
 		return member;
 	}
 
+	@Override
+	public Member myPage(String userid) throws Exception {
+		return memberDao.selectMember(userid);
+	}
+
 }

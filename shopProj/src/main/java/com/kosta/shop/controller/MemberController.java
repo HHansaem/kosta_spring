@@ -1,5 +1,7 @@
 package com.kosta.shop.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kosta.shop.dto.Member;
 import com.kosta.shop.service.MemberService;
@@ -48,5 +51,10 @@ public class MemberController {
 			e.printStackTrace();
 			return "사용불가능";
 		}
+	}
+	
+	@GetMapping("/mypage")
+	public String myPage() {
+		return "mypage";
 	}
 }
