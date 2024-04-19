@@ -5,5 +5,6 @@ import java.util.List;
 import com.kosta.shop.dto.Cart;
 
 public interface CartDao {
+	void insertCart(Cart cart) throws Exception;
 	List<Cart> selectCartList(String userid) throws Exception;
 }

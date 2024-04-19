@@ -16,11 +16,4 @@
       	]]>
  	</select>
  	
- 	<insert id="insertCart" parameterType="cart">
- 		<![CDATA[
-         insert into cart value(num=#{num}, userid=#{userid}, gCode=#{gCode}, gName=#{gName},
-					gPrice=#{gPrice}, gSize=#{gSize}, gColor=#{gColor}, gAmount=#{gAmount}, gImage=#{gImage})
-      	]]>
- 	</insert>
- 	
  </mapper>

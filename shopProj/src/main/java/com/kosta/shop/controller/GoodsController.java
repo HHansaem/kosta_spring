@@ -1,5 +1,9 @@
 package com.kosta.shop.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +11,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kosta.shop.dto.Cart;
 import com.kosta.shop.dto.Goods;
+import com.kosta.shop.dto.Member;
+import com.kosta.shop.service.CartService;
 import com.kosta.shop.service.GoodsService;
 
 @Controller
@@ -15,6 +22,12 @@ public class GoodsController {
 
 	@Autowired
 	private GoodsService goodsService;
+
+	@Autowired
+	private CartService cartService;
+	
+	@Autowired
+	private HttpSession session;
 	
 	@GetMapping("/goodsRetrieve")
 	public ModelAndView goodsRetrieve(@RequestParam("gCode") String gCode) {
@@ -44,4 +57,29 @@ public class GoodsController {
 //		}
 //		return goods;
 //	}
+	
+	@GetMapping("/addCart")
+	public String addCart(Cart cart) {
+		Member member = (Member)session.getAttribute("user");
+		cart.setUserid(member.getUserid());
+		try {
+			cartService.cartAdd(cart);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/goodsRetrieve?gCode="+cart.getgCode();
+	}
+	
+	@GetMapping("/cartList")
+	@ModelAttribute("cartList")
+	public List<Cart> cartList() {
+		List<Cart> carts = null;
+		try {
+			Member member = (Member)session.getAttribute("user");
+			carts = cartService.cartList(member.getUserid());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return carts;
+	}
 }

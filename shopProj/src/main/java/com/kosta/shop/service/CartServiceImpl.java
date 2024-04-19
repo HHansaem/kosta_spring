@@ -15,6 +15,11 @@ public class CartServiceImpl implements CartService {
 	private CartDao cartDao;
 	
 	@Override
+	public void cartAdd(Cart cart) throws Exception {
+		cartDao.insertCart(cart);
+	}
+
+	@Override
 	public List<Cart> cartList(String userid) throws Exception {
 		return cartDao.selectCartList(userid);
 	}

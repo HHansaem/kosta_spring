@@ -4,6 +4,13 @@
  
  <mapper namespace="mapper.cart">
 
+ 	<insert id="insertCart" parameterType="cart">
+ 		<![CDATA[
+         insert into cart (userid, gCode, gName, gPrice, gSize, gColor, gAmount, gImage)
+         values(#{userid}, #{gCode}, #{gName}, #{gPrice}, #{gSize}, #{gColor}, #{gAmount}, #{gImage})
+      	]]>
+ 	</insert>
+ 	
  	<select id="selectCartList" parameterType="String" resultType="cart">
  		<![CDATA[
          select * from cart where userid = #{userid}

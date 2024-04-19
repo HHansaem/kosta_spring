@@ -15,6 +15,11 @@ public class CartDaoImpl implements CartDao {
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
+	public void insertCart(Cart cart) throws Exception {
+		sqlSession.insert("mapper.cart.insertCart", cart);
+	}
+	
+	@Override
 	public List<Cart> selectCartList(String userid) throws Exception {
 		return sqlSession.selectList("mapper.cart.selectCartList", userid);
 	}
