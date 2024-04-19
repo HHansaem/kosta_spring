@@ -11,5 +11,6 @@ public interface CartService {
 	Cart cartRetrive(Integer num) throws Exception;
 	List<Cart> orderAllConfirm(List<Integer> cartNum) throws Exception;
 	void cartUpdate(Map<String, Integer> param) throws Exception;
-//	void removeCart(Integer num) throws Exception;
+	void cartDelete(Integer num) throws Exception;
+	void cartDeleteAll(List<Integer> nums) throws Exception;
 }

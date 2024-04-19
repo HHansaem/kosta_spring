@@ -40,5 +40,17 @@ public class CartServiceImpl implements CartService {
 		cartDao.updateCartAmount(param);;
 	}
 
+	@Override
+	public void cartDelete(Integer num) throws Exception {
+		cartDao.deleteCart(num);
+	}
+
+	@Override
+	public void cartDeleteAll(List<Integer> nums) throws Exception {
+		for(Integer num : nums) {
+			cartDao.deleteCart(num);
+		}
+	}
+
 
 }

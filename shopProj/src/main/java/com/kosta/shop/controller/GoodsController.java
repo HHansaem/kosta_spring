@@ -126,4 +126,24 @@ public class GoodsController {
 			e.printStackTrace();
 		}
 	}
+
+	@ResponseBody
+	@GetMapping("/cartDelete")
+	public void cartDelete(@RequestParam Integer num) {
+		try {
+			cartService.cartDelete(num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@GetMapping("/CartDelAll")
+	public String cartDelAll(@RequestParam("check") Integer[] num) {
+		try {
+			cartService.cartDeleteAll(Arrays.asList(num));  //Arrays.asList -> 배열을 리스트로 바꿔줌
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/cartList";
+	}
 }
