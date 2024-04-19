@@ -44,19 +44,6 @@ public class GoodsController {
 		}
 		return mav;
 	}
-
-	//이렇게도 쓸 수 있음 (item이란 이름으로 goodsRetrieve 뷰로 넘겨줌 (뷰는 GetMapping의 이름)
-//	@GetMapping("/goodsRetrieve")
-//	@ModelAttribute("item")
-//	public Goods goodsRetrieve(@RequestParam("gCode") String gCode) {
-//		Goods goods = null;
-//		try {
-//			goods = goodsService.goodsDetail(gCode);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return goods;
-//	}
 	
 	@GetMapping("/addCart")
 	public String addCart(Cart cart) {
@@ -70,6 +57,7 @@ public class GoodsController {
 		return "redirect:/goodsRetrieve?gCode="+cart.getgCode();
 	}
 	
+	//이렇게도 쓸 수 있음 (cartList이란 이름으로 cartList 뷰로 넘겨줌 (뷰는 GetMapping의 이름)
 	@GetMapping("/cartList")
 	@ModelAttribute("cartList")
 	public List<Cart> cartList() {
@@ -81,5 +69,23 @@ public class GoodsController {
 			e.printStackTrace();
 		}
 		return carts;
+	}
+	
+	@GetMapping("/orderConfirm")
+	public ModelAndView orderConfirm(Goods goods, @RequestParam("gSize") String gSize,
+			@RequestParam("gColor") String gColor, @RequestParam("gAmount") Integer gAmount) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("gDTO", goods);
+		mav.addObject("gSize", gSize);
+		mav.addObject("gColor", gColor);
+		mav.addObject("gAmount", gAmount);
+		mav.setViewName("orderConfirm");
+		return mav;
+	}
+
+	@GetMapping("/cartOrderConfirm")
+	public ModelAndView cartOrderConfirm(@RequestParam("num") Integer cartNum) {
+		ModelAndView mav = new ModelAndView();
+		return mav;
 	}
 }
