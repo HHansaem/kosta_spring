@@ -24,4 +24,9 @@ public class CartDaoImpl implements CartDao {
 		return sqlSession.selectList("mapper.cart.selectCartList", userid);
 	}
 
+	@Override
+	public Cart selectCart(Integer num) throws Exception {
+		return sqlSession.selectOne("mapper.cart.selectCart", num);
+	}
+
 }

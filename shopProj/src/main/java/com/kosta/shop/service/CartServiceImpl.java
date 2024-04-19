@@ -24,4 +24,9 @@ public class CartServiceImpl implements CartService {
 		return cartDao.selectCartList(userid);
 	}
 
+	@Override
+	public Cart cartRetrive(Integer num) throws Exception {
+		return cartDao.selectCart(num);
+	}
+
 }

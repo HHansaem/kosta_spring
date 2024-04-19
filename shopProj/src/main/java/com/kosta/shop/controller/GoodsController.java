@@ -84,8 +84,15 @@ public class GoodsController {
 	}
 
 	@GetMapping("/cartOrderConfirm")
-	public ModelAndView cartOrderConfirm(@RequestParam("num") Integer cartNum) {
+	public ModelAndView cartOrderConfirm(@RequestParam("num") Integer num) {
 		ModelAndView mav = new ModelAndView();
+		try {
+			Cart cart = cartService.cartRetrive(num);
+			mav.addObject("cDTO", cart);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		mav.setViewName("orderConfirm");
 		return mav;
 	}
 }

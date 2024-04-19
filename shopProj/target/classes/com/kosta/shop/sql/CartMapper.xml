@@ -17,4 +17,10 @@
       	]]>
  	</select>
 
+ 	<select id="selectCart" parameterType="Integer" resultType="cart">
+ 		<![CDATA[
+         select * from cart where num = #{num}
+      	]]>
+ 	</select>
+
  </mapper>
