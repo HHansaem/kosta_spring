@@ -1,6 +1,7 @@
 package com.kosta.shop.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,16 @@ public class CartServiceImpl implements CartService {
 	public Cart cartRetrive(Integer num) throws Exception {
 		return cartDao.selectCart(num);
 	}
+
+	@Override
+	public List<Cart> orderAllConfirm(List<Integer> cartNum) throws Exception {
+		return cartDao.selectCheckedCart(cartNum);
+	}
+
+	@Override
+	public void cartUpdate(Map<String, Integer> param) throws Exception {
+		cartDao.updateCartAmount(param);;
+	}
+
 
 }

@@ -1,6 +1,8 @@
 package com.kosta.shop.controller;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kosta.shop.dto.Cart;
@@ -94,5 +97,33 @@ public class GoodsController {
 		}
 		mav.setViewName("orderConfirm");
 		return mav;
+	}
+	
+	@GetMapping("/cartOrderAllConfirm")
+	public ModelAndView cartOrderAllConfirm(@RequestParam("check") Integer[] check,
+											@RequestParam("cartAmount") Integer[] cartAmount) {
+		ModelAndView mav = new ModelAndView();
+		try {
+			List<Cart> cartList = cartService.orderAllConfirm(Arrays.asList(check));  //Arrays.asList -> 배열을 리스트로 바꿔줌
+			//주문 수량으로 바꿔서 세팅
+			for(int i=0; i<cartList.size(); i++) {
+				cartList.get(i).setgAmount(cartAmount[i]);
+			}
+			mav.addObject("cartList", cartList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		mav.setViewName("orderAllConfirm");
+		return mav;
+	}
+	
+	@ResponseBody
+	@GetMapping("/cartUpdate")
+	public void cartUpdate(@RequestParam Map<String, Integer> map) {
+		try {
+			cartService.cartUpdate(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

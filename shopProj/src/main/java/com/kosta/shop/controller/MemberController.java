@@ -1,15 +1,13 @@
 package com.kosta.shop.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.kosta.shop.dto.Member;
 import com.kosta.shop.service.MemberService;
@@ -26,7 +24,8 @@ public class MemberController {
 	}
 	
 	@PostMapping("/signUp")
-	public String signUp(Member member, Model model) {		
+	public String signUp(@ModelAttribute Member member, Model model) {		
+		// @ModelAttribute -> 해당 객체를 view에서도 사용 가능...
 		model.addAttribute("action", "회원가입");
 		try {
 			memberService.signUp(member);

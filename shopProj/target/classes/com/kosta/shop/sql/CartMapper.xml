@@ -23,4 +23,24 @@
       	]]>
  	</select>
 
+ 	<select id="selectCheckedCart" parameterType="list" resultType="cart">
+         select * from cart where num in
+         <foreach collection="list" item="item" open="(" separator="," close=")">
+         	#{item}
+         </foreach>
+ 	</select>
+ 	
+ 	<update id="updateCartAmount" parameterType="Map">
+ 		<![CDATA[
+	 		update cart set gAmount = #{gAmount} where num = #{num}
+      	]]>
+    </update>
+    
+ 	<delete id="deleteCart" parameterType="Integer">
+ 		<![CDATA[
+	 		delete from cart where num = #{num}
+      	]]>
+ 		
+ 	</delete>
+
  </mapper>
