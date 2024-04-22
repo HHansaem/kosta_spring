@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kosta.shop.dto.Cart;
+import com.kosta.shop.dto.Order;
+import com.kosta.shop.dto.OrderInfo;
 
 @Repository
 public class CartDaoImpl implements CartDao {
@@ -44,6 +46,21 @@ public class CartDaoImpl implements CartDao {
 	@Override
 	public void deleteCart(Integer num) throws Exception {
 		sqlSession.delete("mapper.cart.deleteCart", num);
+	}
+
+	@Override
+	public void insertOrderInfo(OrderInfo orderinfo) throws Exception {
+		sqlSession.insert("mapper.cart.insertOrderInfo", orderinfo);
+	}
+
+	@Override
+	public void insertOrder(Order order) throws Exception {
+		sqlSession.insert("mapper.cart.insertOrder", order);
+	}
+
+	@Override
+	public List<Order> selectOrderList(Integer orderinfo_num) throws Exception {
+		return sqlSession.selectList("mapper.cart.selectOrderList", orderinfo_num);
 	}
 
 }

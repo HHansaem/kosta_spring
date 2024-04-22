@@ -1,5 +1,6 @@
 package com.kosta.shop.controller;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kosta.shop.dto.Cart;
 import com.kosta.shop.dto.Goods;
 import com.kosta.shop.dto.Member;
+import com.kosta.shop.dto.Order;
+import com.kosta.shop.dto.OrderInfo;
 import com.kosta.shop.service.CartService;
 import com.kosta.shop.service.GoodsService;
 
@@ -104,11 +107,7 @@ public class GoodsController {
 											@RequestParam("cartAmount") Integer[] cartAmount) {
 		ModelAndView mav = new ModelAndView();
 		try {
-			List<Cart> cartList = cartService.orderAllConfirm(Arrays.asList(check));  //Arrays.asList -> 배열을 리스트로 바꿔줌
-			//주문 수량으로 바꿔서 세팅
-			for(int i=0; i<cartList.size(); i++) {
-				cartList.get(i).setgAmount(cartAmount[i]);
-			}
+			List<Cart> cartList = cartService.orderAllConfirm(Arrays.asList(check), Arrays.asList(cartAmount));  //Arrays.asList -> 배열을 리스트로 바꿔줌
 			mav.addObject("cartList", cartList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -146,4 +145,38 @@ public class GoodsController {
 		}
 		return "redirect:/cartList";
 	}
+	
+	@GetMapping("/cartOrderDone")
+	public ModelAndView cartOrderDone(OrderInfo orderInfo, Order order, @RequestParam(required = false) Integer orderNum) {
+		ModelAndView mav = new ModelAndView("orderDone");
+		Member member = (Member)session.getAttribute("user");
+		order.setUserid(member.getUserid());
+		orderInfo.setUserid(member.getUserid());
+		try {
+			cartService.orderDone(orderInfo, order, orderNum);
+			mav.addObject("orderInfo", orderInfo);
+			mav.addObject("order", order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+	}
+
+	@GetMapping("/cartOrderAllDone")
+	public ModelAndView cartOrderAllDone(@RequestParam("num") Integer[] nums, @ModelAttribute OrderInfo orderInfo) {
+		ModelAndView mav = new ModelAndView("orderAllDone");
+		Member member = (Member)session.getAttribute("user");
+		orderInfo.setUserid(member.getUserid());
+		try {
+			cartService.orderAllDone(orderInfo, Arrays.asList(nums));
+			List<Order> orderList = cartService.orderList(orderInfo.getNum());
+			mav.addObject("orderInfo", orderInfo);
+			mav.addObject("orderAllDone", orderList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+	}
+	
+	
 }

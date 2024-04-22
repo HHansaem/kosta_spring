@@ -3,8 +3,9 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
  <mapper namespace="mapper.cart">
-
- 	<insert id="insertCart" parameterType="cart">
+	<!-- useGeneratedKeys="true" keyProperty="num": AUTO_INCREMENT인 컬럼 이름 써줌 
+	 => num이 DB에만 들어가는 게 아니라 객체로 값을 활용하려면 적어줘야 함 -->
+ 	<insert id="insertCart" parameterType="cart" useGeneratedKeys="true" keyProperty="num">
  		<![CDATA[
          insert into cart (userid, gCode, gName, gPrice, gSize, gColor, gAmount, gImage)
          values(#{userid}, #{gCode}, #{gName}, #{gPrice}, #{gSize}, #{gColor}, #{gAmount}, #{gImage})
@@ -40,7 +41,30 @@
  		<![CDATA[
 	 		delete from cart where num = #{num}
       	]]>
- 		
  	</delete>
+ 	
+ 	<insert id="insertOrderInfo" parameterType="orderinfo" useGeneratedKeys="true" keyProperty="num">
+ 		<![CDATA[
+	 		insert into orderinfo 
+	 			(userid, orderName, post, addr1, addr2, phone, payMethod, orderDay)
+         	values	
+         		(#{userid}, #{orderName}, #{post}, #{addr1}, #{addr2}, #{phone}, #{payMethod}, curdate())
+      	]]>
+ 	</insert>
+
+ 	<insert id="insertOrder" parameterType="order" useGeneratedKeys="true" keyProperty="num">
+ 		<![CDATA[
+	 		insert into gorder 
+	 			(userid, gCode, gName, gPrice, gSize, gColor, gAmount, gImage, orderinfo_num)
+         	values
+         		(#{userid}, #{gCode}, #{gName}, #{gPrice}, #{gSize}, #{gColor}, #{gAmount}, #{gImage}, #{orderinfo_num})
+      	]]>
+ 	</insert>
+ 	
+ 	<select id="selectOrderList" parameterType="Integer" resultType="order">
+ 		<![CDATA[
+        	select * from gorder where orderinfo_num = #{orderinfo_num}
+      	]]>
+ 	</select>
 
  </mapper>
