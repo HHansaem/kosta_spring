@@ -25,7 +25,6 @@
 			<a id="cartListBtn">장바구니</a>
 		</div>
 	</header>
-	<c:set var="orderInfo" value="${orderAllDone[0]}"/>
 	<div class="orderDetail">
 	<table>
 		<tr id="titleMessage">
