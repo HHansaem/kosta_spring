@@ -6,7 +6,7 @@ public class Cart {
 	private String gCode;
 	private String gName;
 	private Integer gPrice;
-	private char gSize;
+	private String gSize;
 	private String gColor;
 	private Integer gAmount;
 	private String gImage;
@@ -42,10 +42,10 @@ public class Cart {
 	public void setgPrice(Integer gPrice) {
 		this.gPrice = gPrice;
 	}
-	public char getgSize() {
+	public String getgSize() {
 		return gSize;
 	}
-	public void setgSize(char gSize) {
+	public void setgSize(String gSize) {
 		this.gSize = gSize;
 	}
 	public String getgColor() {
