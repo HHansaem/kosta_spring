@@ -1,5 +1,7 @@
 package com.kosta.shop.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,9 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private HttpSession session;
 	
 	@GetMapping("/signUp")
 	public String signUp() {
@@ -55,5 +60,20 @@ public class MemberController {
 	@GetMapping("/mypage")
 	public String myPage() {
 		return "mypage";
+	}
+	
+	@PostMapping("/updateMember")
+	public String updateMember(@ModelAttribute Member member, Model model) {
+		// @ModelAttribute -> 해당 객체를 view에서도 사용 가능...
+		model.addAttribute("action", "회원정보수정");
+		try {
+			memberService.modifyMyPage(member);
+			session.setAttribute("user", memberService.myPage(member.getUserid()));
+			model.addAttribute("message", "회원정보수정 성공");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("message", "회원정보수정 실패");
+		}
+		return "memberResult";
 	}
 }
